@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plazma Browser Plans</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+        }
+
+        #features-div {
+            background-color: rgb(35, 35, 35);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            width: 40%;
+            min-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #features-div ul {
+            list-style-type: decimal;
+            text-align: left;
+        }
+
+        #daily-div {
+            background-color: rgb(35, 35, 35);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 10px;
+            width: 40%;
+            min-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        #daily-div ul {
+            list-style-image: url("webImages/tick16.png");
+            text-align: left;
+        }
+
+        #dailyImg {
+            border-radius: 10px;
+            border: 1px solid gray;
+        }
+
+        #dailyImg:hover{
+            color: #424242; 
+            -webkit-transition: all .3s ease-in;
+            -moz-transition: all .3s ease-in;
+            -ms-transition: all .3s ease-in;
+            -o-transition: all .3s ease-in;
+            transition: all .3s ease-in;
+            opacity: 1;
+            transform: scale(1.3);
+            -ms-transform: scale(1.3); /* IE 9 */
+            -webkit-transform: scale(1.3); /* Safari and Chrome */
+        }
+    </style>
+</head>
+<body>
+    <h1>Plans for Plazma Browser</h1>
+    <h5 style="color: rgb(128, 128, 108);">Last updated: 1/12/2023</h5>
+    <div id="features-div">
+        <h2>Features</h2>
+        <ul>
+            <li>Smooth HTML rendering</li>
+            <li>CSS styling</li>
+            <li>Usable for everyday use</li>
+            <li>Javascript execution</li>
+            <li>Tab support</li>
+            <li>Bookmarks</li>
+            <li>History</li>
+            <li>Settings</li>
+            <li>Customisation</li>
+            <li>Less then 500mb of memory</li>
+        </ul>
+    </div>
+    <div id="daily-div">
+        <h2>1/12/2023 daily update</h2>
+        <ul>
+            <li>Basic window</li>
+            <li>Basic tabs</li>
+            <li>New tab button</li>
+            <li>Ctrl-t and Ctrl-w tab hotkeys (open and close tabs)</li>
+            <li>Added search bar and button which calls a function and changes the title</li>
+        </ul>
+        <img src="webImages/1-12-2023.png" alt="1/12/2023 daily update" width="50%" id="dailyImg">
+    </div>
+    <div id="daily-div">
+        <h2>2/12/2023 daily update</h2>
+        <ul>
+            <li style="list-style: circle !important;">Request urls in search bar</li>
+            <li style="list-style: circle !important;">Set title of window the the web page title</li>
+            <li style="list-style: circle !important;">Extract all the 'h' tags and 'p' tags from the document</li>
+            <li style="list-style: circle !important;">Render the 'h' and 'p' tags to the screen</li>
+            <li style="list-style: circle !important;">Extract all the 'a' tags</li>
+            <li style="list-style: circle !important;">Render the 'a' tags to the screen</li>
+            <li style="list-style: circle !important;">Make the 'a' tags blue and clickable to open the link in the current tab</li>
+            <li style="list-style: circle !important;">Make the 'a' tags control-clickable to open the link in a new tab</li>
+            <li style="list-style: circle !important;">Extract all the img tags</li>
+            <li style="list-style: circle !important;">Convert them all to '.png' format</li>
+            <li style="list-style: circle !important;">Render them to the screen</li>
+        </ul>
+    </div>
+</body>
+</html>
