@@ -53,13 +53,13 @@ class Link(tk.Label):
         self.text = text
         self.styles = styles
         #print("e", self.styles)
-        self.config(background=self.styles['background'])
+        self.config(background=self.styles['background'], fg=self.styles['color'])
 
     def _on_enter(self, event):
         self.config(fg='lightblue')
         self.tooltip.showtip(self.link)
     def _on_leave(self, event):
-        self.config(fg='blue')
+        self.config(fg=self.styles['color'])
         self.tooltip.hidetip()
     def _on_click(self, event):
         self.tab.url = self.link
@@ -235,15 +235,121 @@ class Tab(tk.Frame):
 
             for tag in soup.find_all():
                 try:
+                    try: print(tag.name + " ~~ " + str(self.styles[tag.name]))
+                    except: pass
+                    localStyles = None
+                    if 'style="' in str(tag).replace('\n', '').replace(' ', ''):
+                        localStyles = tag.name + ' {' + str(tag).replace('\n', '').replace(' ', '').split('style="')[1].split('"')[0] + '}'
+                    elif "style='" in str(tag).replace('\n', '').replace(' ', ''):
+                        localStyles = tag.name + ': {' + str(tag).replace('\n', '').replace(' ', '').split("style='")[1].split("'")[0] + '}'
+                    if localStyles != None:
+                        try:
+                            if 'linear-gradient(' in localStyles:
+                                index = localStyles.find('linear-gradient(')
+                                cut = ""
+                                for i in range(index, len(list(localStyles))):
+                                    if str(list(localStyles)[i]) == ')':
+                                        if str(list(localStyles)[i+2]) == ';':
+                                            cut = ''.join(list(localStyles[index:i+2]))
+                                        else:
+                                            cut = ''.join(list(localStyles[index:i+1]))
+                                        print(cut)
+                                        cindex = cut.find('#')
+                                        ccolor = ''.join(list(cut[cindex:cindex+7]))
+                                        print(ccolor)
+                                        if str(list(localStyles)[i+2]) == ';':
+                                            localStyles = localStyles.replace(cut, ccolor + ';')
+                                        else:
+                                            localStyles = localStyles.replace(cut, ccolor)
+                                        break
+                        except: pass
+
+                        try:
+                            index = localStyles.find('/*')
+                            while index != -1:
+                                index = localStyles.find('/*')
+                                closeIndex = localStyles.find('*/')
+                                localStyles = localStyles.replace(''.join(list(localStyles)[index:closeIndex+2]), '')
+                                index = localStyles.find('/*')
+                                closeIndex = localStyles.find('*/')
+                        except: pass
+                        
+                        sheet = cssutils.parseString(localStyles)
+
+                        localStyles = {}
+                        OGStyles = str(self.styles.copy())
+
+                        for rule in sheet:
+                            try:
+                                selector = rule.selectorText
+                                styles = rule.style.cssText.replace('\n', '').split(';')
+                                
+                                for i, style in enumerate(styles):
+                                    styles[i] = eval("{'" + style.split(':')[0] + "': '" + style.split(':')[1][1:] + "'}")
+
+                                styles = str(styles).replace('{', '').replace('}', '')
+                                styles = list(styles)
+                                styles[0] = '{'
+                                styles[len(styles)-1] = '}'
+                                styles = ''.join(styles)
+
+                                if 'rgb' in styles.replace('\n', '').replace(' ', '') or 'rgba' in styles.replace('\n', '').replace(' ', ''):
+                                    if 'rgba' in styles.replace('\n', '').replace(' ', ''):
+                                        styles = styles.replace('\n', '').replace(' ', '').replace(styles.replace('\n', '').replace(' ', '').split(',')[3].split(')')[0], '')
+                                        styles = styles.replace(',)', ')')
+                                        styles = styles.replace('rgba', 'rgb')
+                                        
+                                    r, g, b = (0, 0, 0)
+
+                                    r = int(styles.replace('\n', '').replace(' ', '').split('rgb(')[1].split(',')[0])
+                                    g = int(styles.replace('\n', '').replace(' ', '').split(',')[1].split(',')[0])
+                                    b = int(styles.replace('\n', '').replace(' ', '').split(',')[2].split(')')[0])
+
+                                    hexColor = _from_rgb((r, g, b))
+                                    styles = styles.replace('\n', '').replace(' ', '').replace(f'rgb({r},{g},{b})', hexColor)
+                                    if 'background-color' not in styles:
+                                        styles = styles.replace('background', "background")
+                                    styles = styles.replace('background-color', "background")
+
+                                #styles = "{'" + selector + "': " + styles + '}'
+                                #styles = eval(styles)
+
+                                #print(eval(styles))
+                                localStyles[selector] = eval(styles)
+                            except: pass
+
+                        #print(localStyles)
+                        for style in localStyles[tag.name]:
+                            self.styles[tag.name][style] = localStyles[tag.name][style]
+
+                    for style in self.styles:
+                        for otherStyle in self.styles[style]:
+                            if 'rgb' in self.styles[style][otherStyle]:
+                                if 'rgba' in self.styles[style][otherStyle]:
+                                    self.styles[style][otherStyle] = self.styles[style][otherStyle].replace(self.styles[style][otherStyle].split(',')[3].split(')')[0], '')
+                                    self.styles[style][otherStyle] = self.styles[style][otherStyle].replace(',)', ')')
+                                    self.styles[style][otherStyle] = self.styles[style][otherStyle].replace('rgba', 'rgb')
+
+                                r, g, b = (0, 0, 0)
+
+                                r = int(self.styles[style][otherStyle].split('rgb(')[1].split(',')[0])
+                                g = int(self.styles[style][otherStyle].split(',')[1].split(',')[0])
+                                b = int(self.styles[style][otherStyle].split(',')[2].split(')')[0])
+
+                                hexColor = _from_rgb((r, g, b))
+                                self.styles[style][otherStyle] = self.styles[style][otherStyle].replace(f'rgb({r},{g},{b})', hexColor)
+                                print(self.styles[style][otherStyle])
+
                     try: print(tag.name + " | " + str(self.styles[tag.name]))
                     except: pass
-                    if tag.name == 'h1'  and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=32), text=str(tag.string).replace('\n', ''), background= self.styles['h1']['background']))
-                    elif tag.name == 'h2' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=24), text=str(tag.string).replace('\n', ''), background=self.styles['h2']['background']))
-                    elif tag.name == 'h3' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=21), text=str(tag.string).replace('\n', ''), background=self.styles['h3']['background']))
-                    elif tag.name == 'h4' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=16), text=str(tag.string).replace('\n', ''), background=self.styles['h4']['background']))
-                    elif tag.name == 'h5' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=13), text=str(tag.string).replace('\n', ''), background=self.styles['h5']['background']))
-                    elif tag.name == 'h6' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=11), text=str(tag.string).replace('\n', ''), background=self.styles['h6']['background']))
-                    elif tag.name == 'p' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=10), text=str(tag.string).replace('\n', ''), background= self.styles['p']['background']))
+
+                    if tag.name == 'h1'  and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=32), text=str(tag.string).replace('\n', ''), background= self.styles['h1']['background'], fg=self.styles['h1']['color']))
+                    elif tag.name == 'h2' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=24), text=str(tag.string).replace('\n', ''), background=self.styles['h2']['background'], fg=self.styles['h2']['color']))
+                    elif tag.name == 'h3' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=21), text=str(tag.string).replace('\n', ''), background=self.styles['h3']['background'], fg=self.styles['h3']['color']))
+                    elif tag.name == 'h4' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=16), text=str(tag.string).replace('\n', ''), background=self.styles['h4']['background'], fg=self.styles['h4']['color']))
+                    elif tag.name == 'h5' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=13), text=str(tag.string).replace('\n', ''), background=self.styles['h5']['background'], fg=self.styles['h5']['color']))
+                    elif tag.name == 'h6' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=11), text=str(tag.string).replace('\n', ''), background=self.styles['h6']['background'], fg=self.styles['h6']['color']))
+                    elif tag.name == 'p' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=10), text=str(tag.string).replace('\n', ''), background= self.styles['p']['background'], fg=self.styles['p']['color']))
                     elif tag.name == 'a' and str(tag.string).replace('\n', ''):
                         if str(tag.string).replace('\n', '') != "None": self.contents.append(Link(self.inner_frame, self, str(tag.string).replace('\n', ''), self._link(tag), self.window, self.styles['a']))
                         elif str(self._link(tag)) != "None": self.contents.append(Link(self.inner_frame, self, self._link(tag), self._link(tag), self.window, self.styles['a']))
@@ -254,7 +360,11 @@ class Tab(tk.Frame):
                         self.contents.append(tk.Label(self.inner_frame, text=img, image=img))
                         self.contents[-1].image = img
                     elif tag.name == 'li' and str(tag).replace('\n', '').replace(' ', '').split('<li>')[1][0] != '<' and str(tag.string.replace('\n', '')) != None: self.contents.append(tk.Label(self.inner_frame, font=Font(family="Times New Roman", size=10), text=' • ' + str(tag.string).replace('\n', ''), background=self.styles['li']['background']))
-                    elif tag.name == 'frame' or tag.name == 'iframe':
+                    if localStyles != None:
+                        print('back')
+                        self.styles = eval(OGStyles).copy()
+                        localStyles = None
+                    if tag.name == 'frame' or tag.name == 'iframe':
                         print("Frame")
                         if 'src="' in str(tag):
                             src = str(tag).split('src="')[1]
@@ -290,11 +400,76 @@ class Tab(tk.Frame):
 
                             if 'http://' not in url and 'https://' not in url:
                                 url = 'http://' + url
+
+                            rsheet = str(requests.get(url, timeout=2).text)
                             
-                            try: sheet = cssutils.parseString(str(requests.get(url, timeout=2).text))
+                            try:
+                                if 'linear-gradient(' in rsheet:
+                                    index = rsheet.find('linear-gradient(')
+                                    cut = ""
+                                    for i in range(index, len(list(rsheet))):
+                                        if str(list(rsheet)[i]) == ')':
+                                            if str(list(rsheet)[i+2]) == ';':
+                                                cut = ''.join(list(rsheet[index:i+2]))
+                                            else:
+                                                cut = ''.join(list(rsheet[index:i+1]))
+                                            print(cut)
+                                            cindex = cut.find('#')
+                                            ccolor = ''.join(list(cut[cindex:cindex+7]))
+                                            print(ccolor)
+                                            if str(list(rsheet)[i+2]) == ';':
+                                                rsheet = rsheet.replace(cut, ccolor + ';')
+                                            else:
+                                                rsheet = rsheet.replace(cut, ccolor)
+                                            break
+                            except: pass
+
+                            try:
+                                index = rsheet.find('/*')
+                                while index != -1:
+                                    index = rsheet.find('/*')
+                                    closeIndex = rsheet.find('*/')
+                                    rsheet = rsheet.replace(''.join(list(rsheet)[index:closeIndex+2]), '')
+                                    index = rsheet.find('/*')
+                                    closeIndex = rsheet.find('*/')
+                            except: pass
+                            
+                            try: sheet = cssutils.parseString(str(rsheet))
                             except: continue
                             
-                        else: sheet = cssutils.parseString(str(tag.string))
+                        else: 
+                            try:
+                                if 'linear-gradient(' in tag.string:
+                                    index = tag.string.find('linear-gradient(')
+                                    cut = ""
+                                    for i in range(index, len(list(tag.string))):
+                                        if str(list(tag.string)[i]) == ')':
+                                            if str(list(tag.string)[i+2]) == ';':
+                                                cut = ''.join(list(tag.string[index:i+2]))
+                                            else:
+                                                cut = ''.join(list(tag.string[index:i+1]))
+                                            print(cut)
+                                            cindex = cut.find('#')
+                                            ccolor = ''.join(list(cut[cindex:cindex+7]))
+                                            print(ccolor)
+                                            if str(list(tag.string)[i+2]) == ';':
+                                                tag.string = tag.string.replace(cut, ccolor + ';')
+                                            else:
+                                                tag.string = tag.string.replace(cut, ccolor)
+                                            break
+                            except: pass
+
+                            try:
+                                index = tag.string.find('/*')
+                                while index != -1:
+                                    index = tag.string.find('/*')
+                                    closeIndex = tag.string.find('*/')
+                                    tag.string = tag.string.replace(''.join(list(tag.string)[index:closeIndex+2]), '')
+                                    index = tag.string.find('/*')
+                                    closeIndex = tag.string.find('*/')
+                            except: pass
+
+                            sheet = cssutils.parseString(str(tag.string))
 
                         self.styles = {}
 
@@ -327,8 +502,9 @@ class Tab(tk.Frame):
                                     hexColor = _from_rgb((r, g, b))
                                     styles = styles.replace('\n', '').replace(' ', '').replace(f'rgb({r},{g},{b})', hexColor)
                                     if 'background-color' not in styles:
-                                        styles = styles.replace('background', "'background'")
+                                        styles = styles.replace('background', "background")
                                     styles = styles.replace('background-color', "background")
+                                    styles = styles.replace('background-image', "background")
 
                                 #styles = "{'" + selector + "': " + styles + '}'
                                 #styles = eval(styles)
@@ -338,7 +514,8 @@ class Tab(tk.Frame):
                             except: pass
 
                         #print(self.styles)
-                        bodyColor = "#ffffff"
+                        bodyBgColor = "#ffffff"
+                        bodyColor = "#000000"
 
                         for name in self.styles:
                             try:
@@ -347,23 +524,26 @@ class Tab(tk.Frame):
                                         if oname == 'background':
                                             self.canvas.config(bg=self.styles[name][oname])
                                             self.inner_frame.config(bg=self.styles[name][oname])
+                                            bodyBgColor = self.styles[name][oname]
+                                        elif oname == 'color':
                                             bodyColor = self.styles[name][oname]
 
                             except: pass
 
-                        defaultStyles = {'h1': {'background': bodyColor},
-                            'h2': {'background': bodyColor},
-                            'h3': {'background': bodyColor},
-                            'h4': {'background': bodyColor},
-                            'h5': {'background': bodyColor},
-                            'h6': {'background': bodyColor},
-                            'p': {'background': bodyColor},
-                            'a': {'background': bodyColor},
-                            'li': {'background': bodyColor}}
+                        defaultStyles = {'h1': {'background': bodyBgColor, 'color': bodyColor},
+                            'h2': {'background': bodyBgColor, 'color': bodyColor},
+                            'h3': {'background': bodyBgColor, 'color': bodyColor},
+                            'h4': {'background': bodyBgColor, 'color': bodyColor},
+                            'h5': {'background': bodyBgColor, 'color': bodyColor},
+                            'h6': {'background': bodyBgColor, 'color': bodyColor},
+                            'p': {'background': bodyBgColor, 'color': bodyColor},
+                            'a': {'background': bodyBgColor, 'color': bodyColor},
+                            'li': {'background': bodyBgColor, 'color': bodyColor}}
 
                         for name in defaultStyles:
                             if name not in self.styles: self.styles[name] = defaultStyles[name]
-                            if 'background' not in self.styles[name]: self.styles[name]['background'] = bodyColor
+                            if 'background' not in self.styles[name]: self.styles[name]['background'] = bodyBgColor
+                            if 'color' not in self.styles[name]: self.styles[name]['color'] = bodyColor
 
                     for li in soup.find_all('li'):
                         if tag in li:
