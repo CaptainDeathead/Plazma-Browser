@@ -1,0 +1,58 @@
+---------------------------------------------------------------------
+                    Plazma Browser - Release Notes
+---------------------------------------------------------------------
+
+Thank you for installing Plazma Browser! Please take a moment to review the following information for important post-installation details.
+
+1. **Version Information:**
+
+   - Plazma Browser Version: 0.1
+   - Release Date: 20/12/2023
+
+2. **New Features and Enhancements:**
+
+   - Basic website rendering (html, css, js)
+
+3. **Getting Started:**
+
+   - Launch Plazma Browser from your desktop shortcut or Start Menu.
+   - Customize your settings from the menu to personalize your browsing experience.
+
+4. **Tips and Tricks:**
+
+   - Restarting fixes many problems
+   - Pages may look like they are not loading but they are, be patient!
+
+5. **Known Issues:**
+
+   - May break after a few searches, restarting fixes
+
+6. **Support and Community:**
+
+   - Visit our website for FAQs and support: http://browser.plazma.live
+   - Connect with the Plazma Browser community on https://github.com/CaptainDeathead/Plazma-Browser/.
+
+7. **Automatic Updates:**
+
+   - Plazma Browser does not include automatic updates at this point.
+
+8. **Uninstallation:**
+
+   - To uninstall Plazma Browser, use the standard uninstallation process in your operating system's control panel.
+
+9. **License Information:**
+
+   - Review the End User License Agreement (EULA) for licensing terms.
+
+10. **Feedback:**
+
+   - We value your feedback! Share your thoughts or report issues to unstableplazma@gmail.com.
+
+---------------------------------------------------------------------
+
+By using Plazma Browser, you agree to the terms outlined in the End User License Agreement (EULA).
+
+Plazma Software
+[Your Contact Information]
+
+---------------------------------------------------------------------

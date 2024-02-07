@@ -1,0 +1,42 @@
+PLAZMA BROWSER END USER LICENSE AGREEMENT
+
+PLEASE READ THIS END USER LICENSE AGREEMENT ("AGREEMENT") CAREFULLY BEFORE INSTALLING OR USING THE PLAZMA BROWSER SOFTWARE. BY INSTALLING OR USING THE SOFTWARE, YOU AGREE TO BE BOUND BY THE TERMS OF THIS AGREEMENT.
+
+1. GRANT OF LICENSE:
+
+   a. License Grant: Subject to the terms and conditions of this Agreement, Plazma Browser hereby grants you a personal, non-exclusive, non-transferable, and revocable license to install and use the Plazma Browser software on a single device for personal, non-commercial use.
+
+   b. Restrictions: You may not reverse engineer, decompile, or disassemble the Plazma Browser software. You may not modify, adapt, translate, or create derivative works based upon the Plazma Browser software.
+
+2. PERMITTED USE:
+
+   You may use the Plazma Browser software for browsing the internet and accessing its features in accordance with this Agreement.
+
+3. RESTRICTIONS:
+
+   You may not sublicense, rent, lease, loan, distribute, or otherwise transfer the Plazma Browser software or any part thereof.
+
+4. TERMINATION:
+
+   This license is effective until terminated. Plazma Browser may terminate this license at any time if you fail to comply with any term of this Agreement. Upon termination, you must cease all use of the Plazma Browser software and destroy all copies in your possession.
+
+5. WARRANTY DISCLAIMER:
+
+   The Plazma Browser software is provided "as is" without any warranty of any kind. Plazma Browser makes no warranties, express or implied, including but not limited to the implied warranties of merchantability and fitness for a particular purpose.
+
+6. LIMITATION OF LIABILITY:
+
+   In no event shall Plazma Browser be liable for any special, incidental, indirect, or consequential damages whatsoever (including, without limitation, damages for loss of business profits, business interruption, loss of business information, or any other pecuniary loss) arising out of the use of or inability to use the Plazma Browser software.
+
+7. GOVERNING LAW:
+
+   This Agreement shall be governed by and construed in accordance with the laws of Western Australia. Any legal action or proceeding arising under this Agreement shall be brought exclusively in the federal or state courts located in Western Australia, and the parties hereby consent to the personal jurisdiction and venue therein.
+
+8. MISCELLANEOUS:
+
+   If any provision of this Agreement is found to be invalid or unenforceable, the remaining provisions will continue to be valid and enforceable.
+
+By installing or using the Plazma Browser software, you acknowledge that you have read, understood, and agree to be bound by the terms of this Agreement.
+
+Plazma Software
+unstableplazma@gmail.com

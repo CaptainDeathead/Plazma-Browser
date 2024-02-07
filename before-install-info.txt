@@ -1,0 +1,57 @@
+---------------------------------------------------------------------
+                      Plazma Browser Installation
+---------------------------------------------------------------------
+
+Thank you for choosing Plazma Browser! Before you proceed with the installation, please read the following information carefully.
+
+1. **System Requirements:**
+
+   - Operating System: Windows 11, Windows 10, Windows 8, Windows 7
+   - Processor: 2 core, 1.0 GHz
+   - RAM: 2 GB
+   - Disk Space: 200 MB
+
+2. **Installation Instructions:**
+
+   - Run the installer file: PlazmaBrowserSetup.exe
+   - Follow the on-screen instructions to complete the installation.
+   - Choose your preferred installation directory or use the default.
+
+3. **First-Time Setup:**
+
+   - Upon first launch, you may be prompted to customize your settings.
+
+4. **Features:**
+
+   - Plazma Browser offers basic web viewing.
+
+5. **Known Issues:**
+
+   - Very simple and may break after a few searches (restart program to fix)
+
+6. **Support and Feedback:**
+
+   - For support or to report issues, visit our website: http://browser.plazma.live
+   - We appreciate your feedback! Send us your thoughts at unstableplazma@gmail.com.
+
+7. **Uninstallation:**
+
+   - To uninstall Plazma Browser, use the standard uninstallation process in your operating system's control panel.
+
+8. **License Agreement:**
+
+   - Please review the End User License Agreement (EULA) included with the installation for licensing terms.
+
+9. **Stay Updated:**
+
+   - Check our website regularly for updates and announcements: http://browser.plazma.live
+
+---------------------------------------------------------------------
+
+By proceeding with the installation, you acknowledge that you have read and understood the information provided in this document.
+
+Plazma Software
+unstableplazma@gmail.com
+20/12/2023
+
+---------------------------------------------------------------------

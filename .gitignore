@@ -1,0 +1,10 @@
+**/export
+**/build
+**/output
+**/web
+**/test
+**/__pycache__
+**/temp
+*.spec
+*.exe
+*.bat
