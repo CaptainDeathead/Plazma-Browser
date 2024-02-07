@@ -7,4 +7,5 @@
 **/temp
 *.spec
 *.exe
-*.bat
+deploy.bat
+pynium.ico
