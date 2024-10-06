@@ -17,7 +17,7 @@ Features
 *   Customisation
 *   Less then 500mb of memory
 
-## Notice: Daily updates were not added to Github as much work had been done to the browser but I knew there are floors with the html tree structure so after a lot longer of working on the project I started from scratch on [Plazma-Browser-V2](github.com/captaindeathead/plazma-browser-v2)
+## Notice: Daily updates were not added to Github as much work had been done to the browser but I knew there are floors with the html tree structure so after a lot longer of working on the project I started from scratch on [Plazma-Browser-V2](https://www.github.com/captaindeathead/plazma-browser-v2)
 
 1/12/2023 daily update
 ----------------------
